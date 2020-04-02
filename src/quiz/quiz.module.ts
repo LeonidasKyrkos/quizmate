@@ -1,9 +1,8 @@
 import { Module } from "@nestjs/common";
-import { DateScalar } from "../common/scalars/date.scalar";
 import { QuizResolver } from "./quiz.resolver";
 import { QuizService } from "./quiz.service";
 
 @Module({
-    providers: [QuizResolver, QuizService, DateScalar],
+    providers: [QuizResolver, QuizService],
 })
 export class QuizModule {}

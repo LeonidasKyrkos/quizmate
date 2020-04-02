@@ -2,12 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-"""Date custom scalar type"""
-scalar Date
-
 type Mutation {
-  addRecipe(newRecipeData: NewRecipeInput!): Recipe!
-  removeRecipe(id: String!): Boolean!
   addQuiz(newQuizData: NewQuizInput!): Quiz!
   removeQuiz(id: String!): Boolean!
 }
@@ -25,15 +20,7 @@ input NewQuizInput {
   questions: [NewQuestionInput!]!
 }
 
-input NewRecipeInput {
-  title: String!
-  description: String
-  ingredients: [String!]!
-}
-
 type Query {
-  recipe(id: String!): Recipe!
-  recipes(skip: Int = 0, take: Int = 25): [Recipe!]!
   quiz(id: String!): Quiz!
   allQuizzes: [Quiz!]!
   userQuizzes(user: String!): [Quiz!]!
@@ -54,15 +41,6 @@ type Quiz {
   questions: [Question]
 }
 
-type Recipe {
-  id: ID!
-  title: String!
-  description: String
-  creationDate: Date!
-  ingredients: [String!]!
-}
-
 type Subscription {
-  recipeAdded: Recipe!
   quizAdded: Quiz!
 }
