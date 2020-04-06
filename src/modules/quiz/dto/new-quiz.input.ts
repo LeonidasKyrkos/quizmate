@@ -1,8 +1,6 @@
 import { Field, InputType } from "@nestjs/graphql";
 import { IsOptional, Length, MaxLength } from "class-validator";
 
-import { NewQuestionInput } from "./new-question-input";
-
 @InputType()
 export class NewQuizInput {
     @Field()
@@ -13,8 +11,4 @@ export class NewQuizInput {
     @IsOptional()
     @Length(30, 255)
     description?: string;
-
-    @Field(type => [NewQuestionInput])
-    @IsOptional()
-    questions: NewQuestionInput[];
 }

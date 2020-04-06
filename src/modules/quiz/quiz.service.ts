@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { NewQuizInput } from "./dto/new-quiz.input";
 import { Quiz } from "./models/quiz.model";
-// import { Question } from "./models/question.model";
 
 @Injectable()
 export class QuizService {
