@@ -29,8 +29,9 @@ export class QuizResolver {
     }
 
     @Query(returns => [Quiz])
-    async userQuizzes(@Args("user") user: string): Promise<Quiz[]> {
-        return this.quizService.getUsersQuizbank(user);
+    @UseGuards(GqlAuthGuard)
+    async userQuizzes(@CurrentUser() user: User): Promise<Quiz[]> {
+        return await this.quizService.getUsersQuizbank(user.id);
     }
 
     @Mutation(returns => Quiz)
@@ -45,8 +46,9 @@ export class QuizResolver {
     }
 
     @Mutation(returns => Boolean)
-    async removeQuiz(@Args("id") id: string) {
-        return this.quizService.removeQuiz(id);
+    @UseGuards(GqlAuthGuard)
+    async removeQuiz(@Args("id") id: string, @CurrentUser() user: User) {
+        return await this.quizService.removeQuiz(id, user.id);
     }
 
     @Subscription(returns => Quiz)

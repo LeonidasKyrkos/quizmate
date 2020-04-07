@@ -17,7 +17,7 @@ input NewQuizInput {
 type Query {
   quiz(id: String!): Quiz!
   allQuizzes: [Quiz!]!
-  userQuizzes(user: String!): [Quiz!]!
+  userQuizzes: [Quiz!]!
 }
 
 type Quiz {

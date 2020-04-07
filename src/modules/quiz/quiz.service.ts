@@ -38,10 +38,14 @@ export class QuizService {
     }
 
     async getUsersQuizbank(user: string): Promise<Quiz[]> {
-        return [] as Quiz[];
+        return await this.QuizRepository.find({ userId: user });
     }
 
-    async removeQuiz(id: string): Promise<boolean> {
+    async removeQuiz(id: string, userId: string): Promise<boolean> {
+        const quiz = await this.QuizRepository.find({ id, userId });
+
+        await this.QuizRepository.remove(quiz);
+
         return true;
     }
 }
