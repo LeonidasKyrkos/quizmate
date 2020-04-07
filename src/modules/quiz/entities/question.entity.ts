@@ -10,4 +10,7 @@ export class Question {
 
     @Column()
     multipleChoice: boolean;
+
+    @Column()
+    userId: string;
 }

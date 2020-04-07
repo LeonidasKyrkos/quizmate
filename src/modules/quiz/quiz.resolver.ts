@@ -1,9 +1,12 @@
-import { NotFoundException } from "@nestjs/common";
+import { NotFoundException, UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver, Subscription } from "@nestjs/graphql";
 import { PubSub } from "apollo-server-express";
 import { NewQuizInput } from "./dto/new-quiz.input";
 import { Quiz } from "./models/quiz.model";
 import { QuizService } from "./quiz.service";
+import { CurrentUser } from "src/decorators/currentUser.decorator";
+import { GqlAuthGuard } from "src/decorators/gqlAuthGuard";
+import { User } from "src/modules/user/models/user.model";
 
 const pubSub = new PubSub();
 
@@ -31,11 +34,13 @@ export class QuizResolver {
     }
 
     @Mutation(returns => Quiz)
+    @UseGuards(GqlAuthGuard)
     async addQuiz(
-        @Args("newQuizData") newQuizData: NewQuizInput
+        @Args("newQuizData") newQuizData: NewQuizInput,
+        @CurrentUser() user: User
     ): Promise<Quiz> {
-        const quiz = await this.quizService.createQuiz(newQuizData);
-        pubSub.publish("quizAdded", { recipeAdded: quiz });
+        const quiz = await this.quizService.createQuiz(newQuizData, user);
+
         return quiz;
     }
 
@@ -46,6 +51,6 @@ export class QuizResolver {
 
     @Subscription(returns => Quiz)
     quizAdded() {
-        return pubSub.asyncIterator("quizAdded");
+        // return pubSub.asyncIterator("quizAdded");
     }
 }

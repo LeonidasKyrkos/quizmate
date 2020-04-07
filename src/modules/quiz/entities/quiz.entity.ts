@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Quiz {
+export class QuizEntity {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
@@ -10,4 +10,7 @@ export class Quiz {
 
     @Column({ type: "varchar", length: 300 })
     description: string;
+
+    @Column({ type: "varchar" })
+    userId: string;
 }

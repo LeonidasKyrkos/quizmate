@@ -18,29 +18,15 @@ type Query {
   quiz(id: String!): Quiz!
   allQuizzes: [Quiz!]!
   userQuizzes(user: String!): [Quiz!]!
-  allUsers: [User!]!
-}
-
-type Question {
-  id: ID!
-  question: String!
-  answer: String!
-  multipleChoice: Boolean!
-  choices: [String!]
 }
 
 type Quiz {
   id: ID!
   title: String!
   description: String
-  questions: [Question]
+  userId: String!
 }
 
 type Subscription {
   quizAdded: Quiz!
-}
-
-type User {
-  id: ID!
-  email: String!
 }

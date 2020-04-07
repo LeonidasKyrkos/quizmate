@@ -16,13 +16,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             secretOrKey: process.env.APP_SECRET,
         });
     }
-    async validate(payload: UserInput): Promise<UserDto> {
-        const user = await this.authService.validateUser(payload);
-
-        if (!user) {
+    async validate(payload: any): Promise<UserDto> {
+        if (!payload.username || !payload.sub) {
             throw new UnauthorizedException();
         }
 
-        return user;
+        return {
+            email: payload.username,
+            id: payload.sub,
+        };
     }
 }

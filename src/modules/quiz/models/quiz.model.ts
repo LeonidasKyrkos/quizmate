@@ -1,5 +1,4 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { Question } from "src/modules/quiz/models/question.model";
 
 @ObjectType()
 export class Quiz {
@@ -12,6 +11,6 @@ export class Quiz {
     @Field({ nullable: true })
     description?: string;
 
-    @Field(type => [Question], { nullable: "itemsAndList" })
-    questions: Question[];
+    @Field()
+    userId: string;
 }

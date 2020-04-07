@@ -15,17 +15,17 @@ export class UserResolver {
         private readonly AuthService: AuthService
     ) {}
 
-    @Query(returns => [User])
-    @UseGuards(GqlAuthGuard)
-    async allUsers(): Promise<User[]> {
-        const quizzes = await this.UserService.findAll();
+    // @Query(returns => [User])
+    // @UseGuards(GqlAuthGuard)
+    // async allUsers(): Promise<User[]> {
+    //     const quizzes = await this.UserService.findAll();
 
-        if (!quizzes) {
-            throw new NotFoundException();
-        }
+    //     if (!quizzes) {
+    //         throw new NotFoundException();
+    //     }
 
-        return quizzes;
-    }
+    //     return quizzes;
+    // }
 
     @Mutation(returns => ID)
     async registerUser(
