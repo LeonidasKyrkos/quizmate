@@ -30,8 +30,15 @@ export class UserResolver {
     @Mutation(returns => ID)
     async registerUser(
         @Args("email") email: string,
-        @Args("password") password: string
+        @Args("password") password: string,
+        @Args("confirmPassword") confirmPassword: string,
+        @Args("username") username: string
     ): Promise<string> {
-        return await this.AuthService.register({ email, password });
+        return await this.AuthService.register({
+            email,
+            password,
+            confirmPassword,
+            username,
+        });
     }
 }

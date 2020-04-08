@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { UserService } from "src/modules/user/user.service";
 import { UserEntity } from "src/modules/user/user.entity";
 import { UserDto } from "src/modules/user/dto/user.dto";
+import { UserRegisterInput } from "src/modules/user/dto/user.input";
 import { UserInput } from "src/modules/user/dto/user.input";
 import { JwtService } from "@nestjs/jwt";
 import { UnauthorizedException } from "@nestjs/common";
@@ -28,18 +29,18 @@ export class AuthService {
             throw new UnauthorizedException();
         }
 
-        const payload = { username: user.email, sub: user.id };
+        const payload = { username: user.username, sub: user.id };
 
         return this.jwtService.sign(payload);
     }
 
-    public async register(userData: UserInput): Promise<string> {
+    public async register(userData: UserRegisterInput): Promise<string> {
         const user = await this.userService.register(userData);
 
         if (!user) {
             throw "Error when registering user. Please contact support.";
         }
 
-        return this.jwtService.sign({ username: user.email, sub: user.id });
+        return this.jwtService.sign({ username: user.username, sub: user.id });
     }
 }

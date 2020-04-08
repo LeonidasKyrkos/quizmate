@@ -10,3 +10,19 @@ export class UserInput {
     @Field()
     password: string;
 }
+
+@InputType()
+export class UserRegisterInput {
+    @Field()
+    @IsEmail()
+    email: string;
+
+    @Field()
+    password: string;
+
+    @Field()
+    confirmPassword: string;
+
+    @Field()
+    username: string;
+}

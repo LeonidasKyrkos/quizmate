@@ -4,8 +4,7 @@ import { IsEmail } from "class-validator";
 @InputType()
 export class UserDto {
     @Field()
-    @IsEmail()
-    email: string;
+    username: string;
 
     @Field()
     id: string;
