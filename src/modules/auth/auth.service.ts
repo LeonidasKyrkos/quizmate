@@ -35,6 +35,10 @@ export class AuthService {
     }
 
     public async register(userData: UserRegisterInput): Promise<string> {
+        if (userData.password !== userData.confirmPassword) {
+            throw "Password and PasswordConfirm do not match.";
+        }
+
         const user = await this.userService.register(userData);
 
         if (!user) {

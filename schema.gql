@@ -6,7 +6,7 @@ type Mutation {
   addQuiz(newQuizData: NewQuizInput!): Quiz!
   removeQuiz(id: String!): Boolean!
   login(password: String!, email: String!): ID!
-  registerUser(password: String!, email: String!): ID!
+  registerUser(username: String!, confirmPassword: String!, password: String!, email: String!): ID!
 }
 
 input NewQuizInput {
@@ -18,6 +18,7 @@ type Query {
   quiz(id: String!): Quiz!
   allQuizzes: [Quiz!]!
   userQuizzes: [Quiz!]!
+  getUser: UserDto!
 }
 
 type Quiz {
@@ -29,4 +30,9 @@ type Quiz {
 
 type Subscription {
   quizAdded: Quiz!
+}
+
+type UserDto {
+  username: String!
+  id: ID!
 }

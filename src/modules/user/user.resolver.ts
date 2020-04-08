@@ -1,14 +1,16 @@
 import { NotFoundException, UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver, ID } from "@nestjs/graphql";
 import { PubSub } from "apollo-server-express";
-import { User } from "./models/user.model";
+import { UserDto } from "./dto/user.dto";
 import { UserService } from "./user.service";
 import { AuthService } from "src/modules/auth/auth.service";
 import { GqlAuthGuard } from "src/decorators/gqlAuthGuard";
+import { CurrentUser } from "src/decorators/currentUser.decorator";
+import { User } from "src/modules/user/models/user.model";
 
 // const pubSub = new PubSub();
 
-@Resolver(of => User)
+@Resolver(of => UserDto)
 export class UserResolver {
     constructor(
         private readonly UserService: UserService,
@@ -40,5 +42,11 @@ export class UserResolver {
             confirmPassword,
             username,
         });
+    }
+
+    @Query(returns => UserDto)
+    @UseGuards(GqlAuthGuard)
+    async getUser(@CurrentUser() user: User): Promise<UserDto> {
+        return await this.UserService.findById(user.id);
     }
 }

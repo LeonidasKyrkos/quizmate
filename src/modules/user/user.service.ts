@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { UserEntity } from "./user.entity";
 import { User } from "src/modules/user/models/user.model";
-import { UserInput } from "src/modules/user/dto/user.input";
+import { UserInput, UserRegisterInput } from "src/modules/user/dto/user.input";
 import bcrypt from "bcrypt";
 
 @Injectable()
@@ -29,7 +29,7 @@ export class UserService {
         });
     }
 
-    async findById(id: number): Promise<UserEntity> {
+    async findById(id: string): Promise<UserEntity> {
         return await this.UserRepository.findOne({
             where: {
                 id: id,
@@ -41,7 +41,7 @@ export class UserService {
         await this.UserRepository.delete(id);
     }
 
-    async register(user: UserInput): Promise<User> {
+    async register(user: UserRegisterInput): Promise<User> {
         const saltyPass = await bcrypt.hash(user.password, 10);
 
         const newUser = new UserEntity();
@@ -49,6 +49,7 @@ export class UserService {
         Object.assign(newUser, {
             email: user.email,
             password: saltyPass,
+            username: user.username,
         });
 
         try {
