@@ -30,11 +30,11 @@ export class QuizService {
     }
 
     async getQuizById(id: string): Promise<Quiz> {
-        return {} as any;
+        return await this.QuizRepository.findOne({ id });
     }
 
     async allQuizzes(): Promise<Quiz[]> {
-        return [] as Quiz[];
+        return await this.QuizRepository.find();
     }
 
     async getUsersQuizbank(user: string): Promise<Quiz[]> {

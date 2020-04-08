@@ -15,6 +15,7 @@ export class QuizResolver {
     constructor(private readonly quizService: QuizService) {}
 
     @Query(returns => Quiz)
+    @UseGuards(GqlAuthGuard)
     async quiz(@Args("id") id: string): Promise<Quiz> {
         const quiz = await this.quizService.getQuizById(id);
         if (!quiz) {
@@ -24,6 +25,7 @@ export class QuizResolver {
     }
 
     @Query(returns => [Quiz])
+    @UseGuards(GqlAuthGuard)
     allQuizzes(): Promise<Quiz[]> {
         return this.quizService.allQuizzes();
     }
