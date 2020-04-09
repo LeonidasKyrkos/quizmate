@@ -8,12 +8,9 @@ export class Question {
     @Field()
     question: string;
 
-    @Field()
-    answer: string;
+    @Field(type => ID)
+    quiz: string;
 
     @Field()
     multipleChoice: boolean;
-
-    @Field(type => [String], { nullable: true })
-    choices: string[];
 }

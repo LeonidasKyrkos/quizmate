@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { Question } from "src/modules/quiz/models/question.model";
 
 @ObjectType()
 export class Quiz {
@@ -13,4 +14,7 @@ export class Quiz {
 
     @Field()
     userId: string;
+
+    @Field(type => Question)
+    questions: Question[];
 }

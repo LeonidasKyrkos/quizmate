@@ -5,6 +5,7 @@
 type Mutation {
   addQuiz(newQuizData: NewQuizInput!): Quiz!
   removeQuiz(id: String!): Boolean!
+  addQuestion(quiz: String!, question: String!): Question!
   login(password: String!, email: String!): ID!
   registerUser(username: String!, confirmPassword: String!, password: String!, email: String!): ID!
 }
@@ -18,14 +19,22 @@ type Query {
   quiz(id: String!): Quiz!
   allQuizzes: [Quiz!]!
   userQuizzes: [Quiz!]!
+  getQuizQuestions(quizId: String!): [Question!]!
   getUser: UserDto!
+}
+
+type Question {
+  id: ID!
+  question: String!
+  multipleChoice: Boolean!
 }
 
 type Quiz {
   id: ID!
   title: String!
-  description: String
+  description: String!
   userId: String!
+  questions: [Question!]!
 }
 
 type Subscription {

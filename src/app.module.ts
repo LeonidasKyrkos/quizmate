@@ -9,8 +9,9 @@ import { AuthModule } from "./modules/auth/auth.module";
 import { UsersModule } from "./modules/user/user.module";
 
 import { Question } from "src/modules/quiz/entities/question.entity";
-import { UserEntity } from "src/modules/user/user.entity";
-import { QuizEntity } from "src/modules/quiz/entities/quiz.entity";
+import { User } from "src/modules/user/user.entity";
+import { Quiz } from "src/modules/quiz/entities/quiz.entity";
+import { Answer } from "src/modules/quiz/entities/answer.entity";
 
 require("dotenv").config();
 
@@ -31,7 +32,7 @@ require("dotenv").config();
             username: process.env.DB_USERNAME,
             password: process.env.DB_PASSWORD,
             database: process.env.DB_DATABASE_NAME,
-            entities: [Question, UserEntity, QuizEntity],
+            entities: [Question, User, Quiz, Answer],
             synchronize: true,
         }),
     ],

@@ -1,20 +1,22 @@
 import { Injectable } from "@nestjs/common";
 import { NewQuizInput } from "./dto/new-quiz.input";
-import { Quiz } from "./models/quiz.model";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
-import { QuizEntity } from "./entities/quiz.entity";
+import { Quiz } from "./entities/quiz.entity";
 import { UserDto } from "src/modules/user/dto/user.dto";
+import { Question } from "src/modules/quiz/entities/question.entity";
 
 @Injectable()
 export class QuizService {
     constructor(
-        @InjectRepository(QuizEntity)
-        private QuizRepository: Repository<QuizEntity>
+        @InjectRepository(Quiz)
+        private QuizRepository: Repository<Quiz>,
+        @InjectRepository(Question)
+        private QuestionRepository: Repository<Question>
     ) {}
 
     async createQuiz(data: NewQuizInput, user: UserDto): Promise<Quiz> {
-        const newQuiz = new QuizEntity();
+        const newQuiz = new Quiz();
 
         Object.assign(newQuiz, {
             title: data.title,
@@ -30,7 +32,13 @@ export class QuizService {
     }
 
     async getQuizById(id: string): Promise<Quiz> {
-        return await this.QuizRepository.findOne({ id });
+        const quiz = await this.QuizRepository.findOne({ id });
+        const questions = await this.QuestionRepository.find({ quiz: quiz });
+
+        return {
+            ...quiz,
+            questions,
+        };
     }
 
     async allQuizzes(): Promise<Quiz[]> {
@@ -47,5 +55,41 @@ export class QuizService {
         await this.QuizRepository.remove(quiz);
 
         return true;
+    }
+
+    async addQuestion(
+        question: string,
+        userId: string,
+        quizId: string
+    ): Promise<Question> {
+        const newQuestion = new Question();
+        const quiz = await this.getQuizById(quizId);
+
+        Object.assign(newQuestion, {
+            question,
+            quiz,
+            userId,
+        });
+
+        try {
+            const question = await this.QuestionRepository.save(newQuestion);
+
+            console.log(question);
+
+            return {
+                id: "IOWD",
+                question: "aodhi",
+                quiz,
+                multipleChoice: false,
+            };
+        } catch (err) {
+            throw err.message;
+        }
+    }
+
+    async getQuestions(quizId: string): Promise<Question[]> {
+        const quiz = await this.getQuizById(quizId);
+
+        return await this.QuestionRepository.find({ quiz });
     }
 }
